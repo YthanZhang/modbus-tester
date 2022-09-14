@@ -214,8 +214,8 @@ impl Display for Response {
             );
         }
 
-        let msg_crc = (self.bytes[self.bytes.len() - 1] as u16)
-            | ((self.bytes[self.bytes.len() - 2] as u16) << 8);
+        let msg_crc = (self.bytes[self.bytes.len() - 2] as u16)
+            | ((self.bytes[self.bytes.len() - 1] as u16) << 8);
         if CRC_GEN.checksum(&self.bytes[0..(self.bytes.len() - 2)]) != msg_crc {
             return make_msg(
                 f,

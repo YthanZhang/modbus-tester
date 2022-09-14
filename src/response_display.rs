@@ -1,14 +1,14 @@
-use crate::error::Error;
-use crate::port_op::Response;
+use std::collections::HashMap;
+use std::fmt::Debug;
 
 use iced::{
     widget::{Column, Text},
-    Element,
+    Command, Element, Length,
 };
-use iced::{Command, Length};
 
-use std::collections::HashMap;
-use std::fmt::Debug;
+use crate::error::Error;
+use crate::port_op::Response;
+
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum ResponseViewMessage {

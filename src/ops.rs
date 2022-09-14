@@ -1,14 +1,16 @@
-use iced::alignment::{Horizontal, Vertical};
-use iced::{
-    widget::{Button, Column, PickList, Row, Scrollable, Text, TextInput},
-    Element,
-};
-use iced::{Alignment, Command, Length};
-
-use crate::message_sender::Operation;
-use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Display, Formatter};
 use std::ops::Deref;
+
+use iced::{
+    alignment::{Horizontal, Vertical},
+    widget::{Button, Column, PickList, Row, Scrollable, Text, TextInput},
+    Alignment, Command, Element, Length,
+};
+
+use serde::{Deserialize, Serialize};
+
+use crate::message_sender::Operation;
+
 
 /// Type of available operations without operation info
 #[derive(Debug, Serialize, Deserialize, Eq, PartialEq, Copy, Clone)]

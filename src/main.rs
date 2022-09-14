@@ -1,7 +1,6 @@
 extern crate core;
 
 mod error;
-mod layout;
 mod message_sender;
 mod ops;
 mod port_op;
@@ -9,32 +8,29 @@ mod read_to_timeout;
 mod response_display;
 mod string_to_num;
 
-use std::sync::mpsc::{channel, Receiver, Sender};
-use std::sync::{Arc, Mutex};
-
-use iced::alignment::Vertical;
-use iced::widget::TextInput;
-use iced::widget::{scrollable, Space};
-use iced::{
-    widget::{Button, Column, Container, PickList, Row},
-    Application, Element,
+use std::sync::{
+    mpsc::{channel, Receiver, Sender},
+    Arc, Mutex,
 };
-use iced::{Command, Length, Settings};
+
+use iced::{
+    alignment::Vertical,
+    widget::{
+        scrollable, Button, Column, Container, PickList, Row, Space, TextInput,
+    },
+    Application, Command, Element, Length, Settings,
+};
 
 use serde::{Deserialize, Serialize};
 
-use crate::error::Error;
+use crate::error::*;
 use crate::ops::*;
-use crate::port_op::{
-    continuous_quarry_get_results, continuous_quarry_start,
-    continuous_quarry_stop, port_op_thread, OpMessage, Parity, PortOption,
-    Response, StopBits,
-};
-use crate::response_display::{
-    KeyedResponseView, KeyedResponseViewMessage, ResponseView,
-    ResponseViewMessage,
-};
+use crate::port_op::*;
+use crate::response_display::*;
 
+/**
+Entry point
+*/
 fn main() -> iced::Result {
     let mut setting = Settings::with_flags(());
     setting.window = iced::window::Settings {
@@ -202,7 +198,7 @@ impl Application for App {
             }
 
             Message::OneShotQuarry(op_view) => Command::perform(
-                port_op::one_shot_quarry(
+                one_shot_quarry(
                     op_view,
                     self.port_option.clone(),
                     self.port_thread_sender.clone().unwrap(),
@@ -295,6 +291,7 @@ impl Application for App {
     fn view(&self) -> Element<'_, Self::Message> {
         Column::new()
             .push(
+                // top bar options
                 Row::new()
                     .height(Length::Units(40))
                     .padding([5, 10])
@@ -307,6 +304,7 @@ impl Application for App {
                         .padding([0, 2]),
                     )
                     .push(
+                        // refresh port button
                         Container::new(
                             Button::new("Refresh")
                                 .on_press(Message::RefreshAvailablePorts),
@@ -329,7 +327,7 @@ impl Application for App {
                         // Parity picker
                         Container::new(
                             PickList::new(
-                                port_op::PARITIES,
+                                PARITIES,
                                 self.port_option.parity,
                                 Message::SetParity,
                             )
@@ -341,7 +339,7 @@ impl Application for App {
                         // Stop bits picker
                         Container::new(
                             PickList::new(
-                                port_op::STOP_BITS,
+                                STOP_BITS,
                                 self.port_option.stop_bits,
                                 Message::SetStopBits,
                             )
@@ -375,6 +373,7 @@ impl Application for App {
                     )
                     .push(Space::new(Length::Units(16), Length::Fill))
                     .push(
+                        // toggle quarry button
                         Container::new(
                             Button::new("Toggle Continuous Quarry").on_press(
                                 Message::ContinuousQuarryToggle(

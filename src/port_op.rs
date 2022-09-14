@@ -1,14 +1,20 @@
-use crate::error::{ErrKind, Error};
-use crate::message_sender::{Operation, Request};
-use crate::{OpView, OpViewList};
-
 use std::fmt::{Display, Formatter};
 use std::io::Write;
 use std::sync::mpsc::{channel, Receiver, Sender};
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
+
+use crate::read_to_timeout::ReadToTimeout;
+use crate::string_to_num::ParseNum;
+
+use crate::error::{ErrKind, Error};
+use crate::message_sender::{Operation, Request};
+use crate::{OpView, OpViewList};
+
 
 pub const PARITIES: &[Parity] = &[Parity::None, Parity::Odd, Parity::Even];
 pub const STOP_BITS: &[StopBits] = &[StopBits::One, StopBits::Two];
+
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Parity {
@@ -326,11 +332,6 @@ pub async fn continuous_quarry_get_results(
 pub async fn continuous_quarry_stop(tx: Sender<OpMessage>) {
     let _ = tx.send(OpMessage::StopContinuous);
 }
-
-use std::time::Duration;
-
-use crate::read_to_timeout::ReadToTimeout;
-use crate::string_to_num::ParseNum;
 
 /// Message to control port operations on port_op_thread
 /// This message should be send through mpsc channel

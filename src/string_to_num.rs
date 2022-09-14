@@ -1,4 +1,29 @@
 pub trait ParseNum {
+    /// Parse string to number
+    ///
+    /// This trait is default implemented for all [str](std::str) and
+    /// [String](std::string::String)
+    ///
+    /// Unlike [from_str_radix](num::Num::from_str_radix) where user must manually
+    /// determine the radix, this method support auto hex, dec, oct, bin detection
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use crate::ParseNum;
+    ///
+    /// assert_eq!("0".parse_num::<i32>().unwrap(), 0i32);
+    /// assert_eq!("10".parse_num::<f32>().unwrap(), 10f32);
+    ///
+    /// assert_eq!("0x01".parse_num::<u16>().unwrap(), 1u16);
+    /// assert_eq!("0xFF".parse_num::<f64>().unwrap(), 255f64);
+    /// assert_eq!("0b1111".parse_num::<u8>().unwrap(), 0b1111u8);
+    /// assert_eq!("0o1463".parse_num::<u16>().unwrap(), 0o1463u16);
+    ///
+    /// assert_eq!("0XfF".parse_num::<f64>().unwrap(), 255f64);
+    /// assert_eq!("0B1111".parse_num::<u8>().unwrap(), 0b1111u8);
+    /// assert_eq!("0O1463".parse_num::<u16>().unwrap(), 0o1463u16);
+    /// ```
     fn parse_num<T: num::Num>(&self) -> Result<T, T::FromStrRadixErr>;
 }
 

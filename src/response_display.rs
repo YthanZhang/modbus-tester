@@ -1,11 +1,11 @@
 use crate::error::Error;
 use crate::port_op::Response;
-use iced::widget::scrollable;
+
 use iced::{
-    widget::{Column, Scrollable, Text},
+    widget::{Column, Text},
     Element,
 };
-use iced::{Color, Command, Length};
+use iced::{Command, Length};
 
 use std::collections::HashMap;
 use std::fmt::Debug;

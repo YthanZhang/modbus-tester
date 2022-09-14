@@ -12,14 +12,14 @@ mod string_to_num;
 use std::sync::mpsc::{channel, Receiver, Sender};
 use std::sync::{Arc, Mutex};
 
-use iced::alignment::{Horizontal, Vertical};
+use iced::alignment::Vertical;
 use iced::widget::TextInput;
 use iced::widget::{scrollable, Space};
 use iced::{
-    widget::{Button, Column, Container, PickList, Row, Text},
+    widget::{Button, Column, Container, PickList, Row},
     Application, Element,
 };
-use iced::{Alignment, Command, Font, Length, Settings};
+use iced::{Command, Length, Settings};
 
 use serde::{Deserialize, Serialize};
 

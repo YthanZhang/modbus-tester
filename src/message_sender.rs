@@ -1,6 +1,6 @@
 use crate::error::*;
 use crate::ops::*;
-use std::fmt::{Debug, Formatter};
+use std::fmt::Debug;
 use std::str::FromStr;
 
 use crate::string_to_num::ParseNum;

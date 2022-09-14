@@ -997,21 +997,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "iced_test"
-version = "0.1.0"
-dependencies = [
- "crc",
- "iced",
- "meval",
- "num",
- "ron",
- "sawp",
- "sawp-modbus",
- "serde",
- "serialport",
-]
-
-[[package]]
 name = "iced_wgpu"
 version = "0.5.1"
 source = "git+https://github.com/iced-rs/iced.git#cb395abd197ef06bc79b91d184ffa52e9bd17c82"
@@ -1295,6 +1280,21 @@ dependencies = [
  "log",
  "wasi",
  "windows-sys",
+]
+
+[[package]]
+name = "modbus-tester"
+version = "0.1.0"
+dependencies = [
+ "crc",
+ "iced",
+ "meval",
+ "num",
+ "ron",
+ "sawp",
+ "sawp-modbus",
+ "serde",
+ "serialport",
 ]
 
 [[package]]

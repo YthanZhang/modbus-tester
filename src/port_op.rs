@@ -1,7 +1,7 @@
 use crate::error::{ErrKind, Error};
 use crate::message_sender::{Operation, Request};
 use crate::{OpView, OpViewList};
-use std::borrow::Borrow;
+
 use std::fmt::{Display, Formatter};
 use std::io::Write;
 use std::sync::mpsc::{channel, Receiver, Sender};
@@ -271,9 +271,7 @@ pub async fn one_shot_quarry(
 
     let (response_tx, response_rx) = channel();
 
-    if let Err(_) =
-        port_op_tx.send(OpMessage::OneShot(port_conf, op, response_tx))
-    {
+    if port_op_tx.send(OpMessage::OneShot(port_conf, op, response_tx)).is_err() {
         return Err(Error::new(ErrKind::PortOpThreadNotPresent));
     }
 
@@ -293,8 +291,9 @@ pub async fn continuous_quarry_start(
     let op_list = op_list.try_into()?;
     let port_conf = port_option.try_into()?;
 
-    if let Err(_) =
-        port_op_tx.send(OpMessage::StartContinuous(port_conf, op_list, sender))
+    if port_op_tx
+        .send(OpMessage::StartContinuous(port_conf, op_list, sender))
+        .is_err()
     {
         Err(Error::new(ErrKind::PortOpThreadNotPresent))
     } else {
@@ -317,12 +316,8 @@ pub async fn continuous_quarry_get_results(
 
     let mut result = vec![response];
 
-    loop {
-        if let Ok(response) = rx.try_recv() {
-            result.push(response);
-        } else {
-            break;
-        }
+    while let Ok(response) = rx.try_recv() {
+        result.push(response);
     }
 
     Ok(result)

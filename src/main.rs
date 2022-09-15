@@ -148,7 +148,8 @@ impl Application for App {
 
             Message::SaveLayout => {
                 if let Ok(string) = ron::to_string(self) {
-                    std::fs::write("layout.ron", string).unwrap_or(());
+                    // don't care if write failed
+                    let _ = std::fs::write("layout.ron", string);
                 }
 
                 Command::none()

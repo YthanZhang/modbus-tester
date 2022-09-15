@@ -107,6 +107,8 @@ impl TryFrom<OpView> for Operation {
 
 impl Operation {
     pub fn get_eval(&self) -> Box<dyn Fn(f64) -> f64> {
+        // self.eval_str should have been checked in operation creation
+        // so here it is guaranteed to be valid
         Box::new(Expr::from_str(&self.eval_str).unwrap().bind("val").unwrap())
     }
 

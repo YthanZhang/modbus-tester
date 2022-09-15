@@ -119,6 +119,7 @@ impl TryFrom<PortOption> for PortConfig {
             }
         };
 
+        // These unwraps were already checked
         Ok(Self {
             port_name: option.port_name.unwrap(),
             baud,
@@ -310,6 +311,7 @@ pub async fn continuous_quarry_start(
 pub async fn continuous_quarry_get_results(
     rx: Arc<Mutex<Receiver<Result<Response, Error>>>>,
 ) -> Result<Vec<Result<Response, Error>>, Error> {
+    // Locking really shouldn't fail, crash the process if that happens
     let rx = rx.lock().unwrap();
     let response = if let Ok(response) = rx.recv() {
         response
@@ -346,6 +348,7 @@ pub fn port_op_thread(rx: Receiver<OpMessage>) -> ! {
 
     loop {
         op_queue.clear();
+        // There should always be a sender present, if not panic
         let (port_conf, response_tx, continuous) = match rx.recv().unwrap() {
             OpMessage::OneShot(port_conf, op, tx) => {
                 op_queue.push(op);

@@ -22,9 +22,13 @@ num = "0.4.0"
 sawp = "0.11.1"
 sawp-modbus = "0.11.1"
 
+string-to-num = { git = "https://gitlab.com/ythan-zhang/string-to-num.git" }
+read-to-timeout = { git = "https://gitlab.com/ythan-zhang/read-to-timeout.git" }
+
 [profile.release]
 opt-level = 3
 
+codegen-units = 1
 lto = true
 strip = true
 

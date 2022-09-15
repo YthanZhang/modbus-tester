@@ -4,9 +4,7 @@ mod error;
 mod message_sender;
 mod ops;
 mod port_op;
-mod read_to_timeout;
 mod response_display;
-mod string_to_num;
 
 use std::sync::{
     mpsc::{channel, Receiver, Sender},

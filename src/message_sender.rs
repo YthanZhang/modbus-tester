@@ -3,10 +3,11 @@ use std::str::FromStr;
 
 use meval::Expr;
 
+use string_to_num::ParseNum;
+
 use crate::error::*;
 use crate::ops::*;
 use crate::port_op::PortConfig;
-use crate::string_to_num::ParseNum;
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum Request {

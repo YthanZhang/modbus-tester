@@ -1290,11 +1290,13 @@ dependencies = [
  "iced",
  "meval",
  "num",
+ "read-to-timeout",
  "ron",
  "sawp",
  "sawp-modbus",
  "serde",
  "serialport",
+ "string-to-num",
 ]
 
 [[package]]
@@ -1882,6 +1884,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "read-to-timeout"
+version = "1.0.0"
+source = "git+https://gitlab.com/ythan-zhang/read-to-timeout.git#27395e2855face98273e6690676ba500559f0384"
+
+[[package]]
 name = "redox_syscall"
 version = "0.2.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2160,6 +2167,14 @@ name = "str-buf"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e08d8363704e6c71fc928674353e6b7c23dcea9d82d7012c8faf2a3a025f8d0"
+
+[[package]]
+name = "string-to-num"
+version = "1.0.0"
+source = "git+https://gitlab.com/ythan-zhang/string-to-num.git#7b5db0b39d2ac784aed8031b5cfa386372bf1d92"
+dependencies = [
+ "num",
+]
 
 [[package]]
 name = "strsim"

@@ -4,8 +4,8 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use crate::read_to_timeout::ReadToTimeout;
-use crate::string_to_num::ParseNum;
+use string_to_num::ParseNum;
+use read_to_timeout::ReadToTimeout;
 
 use crate::error::{ErrKind, Error};
 use crate::message_sender::{Operation, Request};

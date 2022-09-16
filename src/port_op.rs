@@ -4,12 +4,13 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use string_to_num::ParseNum;
 use read_to_timeout::ReadToTimeout;
+use string_to_num::ParseNum;
 
 use crate::error::{ErrKind, Error};
 use crate::message_sender::{Operation, Request};
 use crate::{OpView, OpViewList};
+use crate::static_unreachable;
 
 
 pub const PARITIES: &[Parity] = &[Parity::None, Parity::Odd, Parity::Even];
@@ -343,13 +344,15 @@ pub enum OpMessage {
     StopContinuous,
 }
 
-pub fn port_op_thread(rx: Receiver<OpMessage>) -> ! {
+pub fn port_op_thread(
+    rx: Receiver<OpMessage>,
+) -> Result<(), Box<std::sync::mpsc::RecvError>> {
     let mut op_queue = vec![];
 
     loop {
         op_queue.clear();
         // There should always be a sender present, if not panic
-        let (port_conf, response_tx, continuous) = match rx.recv().unwrap() {
+        let (port_conf, response_tx, continuous) = match rx.recv()? {
             OpMessage::OneShot(port_conf, op, tx) => {
                 op_queue.push(op);
                 (port_conf, tx, false)
@@ -460,4 +463,6 @@ pub fn port_op_thread(rx: Receiver<OpMessage>) -> ! {
             std::thread::sleep(Duration::from_millis(40));
         }
     }
+
+    static_unreachable!()
 }

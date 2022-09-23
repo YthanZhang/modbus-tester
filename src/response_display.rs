@@ -27,10 +27,13 @@ impl ResponseView {
             Column::new().height(Length::Shrink).width(Length::Fill);
 
         for resp in &self.responses {
-            column = match resp {
-                Ok(resp) => column.push(Text::new(resp.to_string())),
-                Err(err) => column.push(Text::new(err.to_string())),
+            let text = match resp {
+                Ok(resp) => Text::new(resp.to_string()),
+                Err(err) => Text::new(err.to_string()),
             }
+            .width(Length::Fill);
+
+            column = column.push(text);
         }
 
         column.into()
